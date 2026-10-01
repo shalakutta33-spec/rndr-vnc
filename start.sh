@@ -12,7 +12,9 @@ fi
 
 echo "[1/3] Starting Tailscale daemon..."
 
-rm -f /tmp/tailscaled.sock
+rm -f /tmp/tailscaled.sock /var/run/tailscale/tailscaled.sock
+mkdir -p /var/run/tailscale
+ln -sf /tmp/tailscaled.sock /var/run/tailscale/tailscaled.sock
 # ponytail: userspace networking, no NET_ADMIN/TUN needed on Deplexo
 tailscaled --tun=userspace-networking --state=/tmp/tailscaled.state --socket=/tmp/tailscaled.sock >/tmp/tailscaled.log 2>&1 &
 TAILSCALED_PID=$!
